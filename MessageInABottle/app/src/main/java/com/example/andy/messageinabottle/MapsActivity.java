@@ -1,7 +1,11 @@
 package com.example.andy.messageinabottle;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -39,8 +43,34 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+//        LatLng e5 = new LatLng(43.473010, -80.540047);
+        LatLng e5 = new LatLng(43.6532, 79.3832);
+        mMap.addMarker(new MarkerOptions().position(e5).title("We're Hacking the North"));
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(e5));
+        enableMyLocation();
+    }
+
+    /**
+     * Enables the My Location layer if the fine location permission has been granted.
+     */
+    private void enableMyLocation() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            mMap.setMyLocationEnabled(true);
+            mMap.getUiSettings().setMyLocationButtonEnabled(true);
+            mMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
+                @Override
+                public boolean onMyLocationButtonClick() {
+//                    double latitude = location.getLatitude();
+//                    double longitude = location.getLongitude();
+//                    mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(latitude, longitude)));
+//                    return true;
+                    Toast.makeText(getApplicationContext(), "MyLoc", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+            });
+        } else {
+            System.out.println("Error");;
+
+        }
     }
 }
