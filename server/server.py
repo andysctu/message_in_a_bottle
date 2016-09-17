@@ -1,4 +1,3 @@
-#!/usr/bin/python
 from BaseHTTPServer import BaseHTTPRequestHandler,HTTPServer
 
 PORT_NUMBER = 8080
@@ -9,12 +8,20 @@ class myHandler(BaseHTTPRequestHandler):
 	
 	#Handler for the GET requests
 	def do_GET(self):
-		self.send_response(200)
-		self.send_header('Content-type','text/html')
-		self.end_headers()
-		# Send the html message
-		self.wfile.write("Hello World !")
-		return
+		if self.path=="/messages":
+			self.send_response(200)
+			self.send_header('Content-type','text/html')
+			self.end_headers()
+
+			# Send the html message
+			# Replace with messages data
+			self.wfile.write("Hello World !")
+			return
+
+	def do_POST(self):
+		if self.path=="/messages":
+			self.send_response(200)
+			self.send_header('Content-type','text/html')
 
 try:
 	#Create a web server and define the handler to manage the
