@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.widget.Toast;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -32,6 +33,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mMessageEditText = (EditText) findViewById(R.id.message_edit_text);
         mMessageSubmitButton = (Button) findViewById(R.id.message_submit_button);
+
+        mMessageSubmitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View mMessageSubmitButton) {
+                sendMessage();
+            }
+        });
+    }
+
+
+    public void sendMessage() {
     }
 
 
