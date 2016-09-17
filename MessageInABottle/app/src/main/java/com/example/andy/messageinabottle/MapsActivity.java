@@ -5,7 +5,6 @@ import android.content.pm.PackageManager;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.widget.Toast;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,8 +12,6 @@ import android.widget.EditText;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -59,12 +56,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
-        // Add a marker in Sydney and move the camera
-//        LatLng e5 = new LatLng(43.473010, -80.540047);
-        LatLng e5 = new LatLng(43.6532, 79.3832);
-        mMap.addMarker(new MarkerOptions().position(e5).title("We're Hacking the North"));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(e5));
         enableMyLocation();
     }
 
@@ -73,23 +64,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     private void enableMyLocation() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-
             mMap.setMyLocationEnabled(true);
-//            mMap.getUiSettings().setMyLocationButtonEnabled(true);
-            mMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
-                @Override
-                public boolean onMyLocationButtonClick() {
-//                    double latitude = location.getLatitude();
-//                    double longitude = location.getLongitude();
-//                    mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(latitude, longitude)));
-//                    return true;
-                    Toast.makeText(getApplicationContext(), "MyLoc", Toast.LENGTH_SHORT).show();
-                    return true;
-                }
-            });
+            mMap.getUiSettings().setMyLocationButtonEnabled(true);
         } else {
-            System.out.println("Error");;
-
+            System.out.println("Error need location access");
         }
     }
 }
