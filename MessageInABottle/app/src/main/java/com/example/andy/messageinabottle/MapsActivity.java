@@ -2,6 +2,8 @@ package com.example.andy.messageinabottle;
 
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -13,6 +15,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private EditText mMessageEditText;
+    private Button mMessageSubmitButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +26,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        mMessageEditText = (EditText) findViewById(R.id.message_edit_text);
+        mMessageSubmitButton = (Button) findViewById(R.id.message_submit_button);
     }
 
 
