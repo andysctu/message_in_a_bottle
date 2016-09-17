@@ -10,8 +10,7 @@ class Root extends react.Component
 
   render: ->
     Router history: browserHistory,
-      Redirect from: '/', to: '/welcome'
-      Route path: '/', component: Layout,
+      Route path: '/', component: Layout
 
 
 module.exports = Root

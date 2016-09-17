@@ -2,6 +2,7 @@ from BaseHTTPServer import BaseHTTPRequestHandler,HTTPServer
 
 PORT_NUMBER = 8080
 
+
 #This class will handles any incoming request from
 #the browser 
 class myHandler(BaseHTTPRequestHandler):
@@ -22,6 +23,7 @@ class myHandler(BaseHTTPRequestHandler):
 		if self.path=="/messages":
 			self.send_response(200)
 			self.send_header('Content-type','text/html')
+
 
 try:
 	#Create a web server and define the handler to manage the
