@@ -21,7 +21,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -32,12 +31,13 @@ import java.io.IOException;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private static final String TAG = MapsActivity.class.getName();
+    private static final int ZOOM = 18;
+
     private GoogleMap mMap;
     private EditText mMessageEditText;
     private Button mMessageSubmitButton;
 
     private String serverUrl = "http://b3397fac.ngrok.io";
-
     private OkHttpClient client;
     /**
      * Provides the entry point to Google Play services.
@@ -145,7 +145,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             if (mLastLocation != null) {
                 double latitude = mLastLocation.getLatitude();
                 double longitude = mLastLocation.getLongitude();
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), ZOOM));
             } else {
                 Log.e(TAG, "Failed to find last location");
             }
