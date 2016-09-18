@@ -87,11 +87,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        // Add a marker in Sydney and move the camera
-//        LatLng e5 = new LatLng(43.473010, -80.540047);
-        LatLng e5 = new LatLng(43.6532, 79.3832);
-        mMap.addMarker(new MarkerOptions().position(e5).title("We're Hacking the North"));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(e5));
 
         try {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
