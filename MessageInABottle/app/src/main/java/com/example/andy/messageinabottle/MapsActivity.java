@@ -76,6 +76,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public void onClick(View mMessageSubmitButton) {
                 String stringJson = createJson();
                 post(serverUrl, stringJson);
+
+                mMessageEditText.setText("");
             }
         });
     }
