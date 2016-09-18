@@ -2,6 +2,7 @@ package com.example.andy.messageinabottle;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.os.StrictMode;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -16,14 +17,26 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.IOException;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
+import java.io.IOException;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private EditText mMessageEditText;
     private Button mMessageSubmitButton;
 
+    private String serverUrl = "http://b3397fac.ngrok.io";
+
+    private OkHttpClient client;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        client = new OkHttpClient();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -65,6 +78,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng e5 = new LatLng(43.6532, 79.3832);
         mMap.addMarker(new MarkerOptions().position(e5).title("We're Hacking the North"));
 //        mMap.moveCamera(CameraUpdateFactory.newLatLng(e5));
+
+        try {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+                    .permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+            System.out.println(getMessages(serverUrl));
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+
         enableMyLocation();
     }
 
@@ -73,23 +96,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     private void enableMyLocation() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-
             mMap.setMyLocationEnabled(true);
-//            mMap.getUiSettings().setMyLocationButtonEnabled(true);
-            mMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
-                @Override
-                public boolean onMyLocationButtonClick() {
-//                    double latitude = location.getLatitude();
-//                    double longitude = location.getLongitude();
-//                    mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(latitude, longitude)));
-//                    return true;
-                    Toast.makeText(getApplicationContext(), "MyLoc", Toast.LENGTH_SHORT).show();
-                    return true;
-                }
-            });
         } else {
-            System.out.println("Error");;
-
+            System.out.println("Error");
         }
+    }
+
+    private String getMessages(String url) throws IOException {
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        Response response = client.newCall(request).execute();
+        return response.body().string();
     }
 }
