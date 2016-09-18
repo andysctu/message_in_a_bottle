@@ -13,11 +13,13 @@ def nothing():
 @app.route('/send/', methods=['POST'])
 def send_message():
 
-    long_val = float(request.form['long'])
-    lat_val = float(request.form['lat'])
+    content = request.get_json()
+
+    long_val = float(content['long'])
+    lat_val = float(content['lat'])
     long_lat = (long_val, lat_val)
 
-    text = request.form['text']
+    text = content['text']
 
     bottled_messages.add_message(long_lat, text)
 
@@ -26,8 +28,10 @@ def send_message():
 @app.route('/open/', methods=['GET'])
 def open_message():
 
-    long_val = float(request.form['long'])
-    lat_val = float(request.form['lat'])
+    content = request.get_json()
+
+    long_val = float(content['long'])
+    lat_val = float(content['lat'])
     long_lat = (long_val, lat_val)
 
     msgs = bottled_messages.get_messages(long_lat)
