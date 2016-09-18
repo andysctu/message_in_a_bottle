@@ -196,13 +196,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private String createJson() {
-
         try {
             JSONObject obj = new JSONObject();
 
             obj.put("long", mLastLocation.getLongitude());
             obj.put("lat", mLastLocation.getLatitude());
-            obj.put("EditText", mMessageEditText.getText());
+            obj.put("text", mMessageEditText.getText());
 
             return obj.toString();
         } catch (JSONException e) {
@@ -214,7 +213,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         try {
             RequestBody body = RequestBody.create(JSONType, json);
             Request request = new Request.Builder()
-                    .url(url)
+                    .url(url+"/send/")
                     .post(body)
                     .build();
             Response response = mClient.newCall(request).execute();
