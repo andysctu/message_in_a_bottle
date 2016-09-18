@@ -22,14 +22,17 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 import java.io.IOException;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
+    public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private static final String TAG = MapsActivity.class.getName();
     private static final int ZOOM = 18;
 
@@ -37,7 +40,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private EditText mMessageEditText;
     private Button mMessageSubmitButton;
 
-    private String serverUrl = "http://b3397fac.ngrok.io";
+    private String serverUrl = "http://65976bdc.ngrok.io";
     private OkHttpClient client;
     /**
      * Provides the entry point to Google Play services.
@@ -92,7 +95,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
                     .permitAll().build();
             StrictMode.setThreadPolicy(policy);
-            System.out.println("Messages: " + getMessages(serverUrl+"/open"));
+            System.out.println("Messages: " + getMessages(serverUrl+"/open/"));
         } catch (IOException e) {
             System.out.println(e);
         }
@@ -113,11 +116,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    private String getMessages(String url) throws IOException {
+    private String getMessages(String server) throws IOException {
+        String json = "{\"long\":43.473010,\"lat\":-80.540047}";
+        RequestBody body = RequestBody.create(JSON, json);
         Request request = new Request.Builder()
-                .url(url)
+                .url(server)
+                .post(body)
                 .build();
-
+        System.out.println("Url: " + request.toString());
         Response response = client.newCall(request).execute();
         return response.body().string();
     }
