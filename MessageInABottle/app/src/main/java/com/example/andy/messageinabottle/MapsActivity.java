@@ -38,7 +38,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Button mMessageSubmitButton;
 
     private String serverUrl = "http://b3397fac.ngrok.io";
-    private OkHttpClient client;
+    private OkHttpClient mClient;
     /**
      * Provides the entry point to Google Play services.
      */
@@ -51,8 +51,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        client = new OkHttpClient();
         super.onCreate(savedInstanceState);
+        mClient = new OkHttpClient();
         setContentView(R.layout.activity_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -118,7 +118,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .url(url)
                 .build();
 
-        Response response = client.newCall(request).execute();
+        Response response = mClient.newCall(request).execute();
         return response.body().string();
     }
 
