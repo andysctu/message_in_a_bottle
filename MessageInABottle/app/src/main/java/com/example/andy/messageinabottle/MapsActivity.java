@@ -2,11 +2,11 @@ package com.example.andy.messageinabottle;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.os.Bundle;
 import android.os.StrictMode;
 import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
-import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
@@ -21,6 +21,11 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -39,9 +44,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private EditText mMessageEditText;
     private Button mMessageSubmitButton;
-
+    
     private String serverUrl = "http://65976bdc.ngrok.io";
     private OkHttpClient client;
+
     /**
      * Provides the entry point to Google Play services.
      */
@@ -54,8 +60,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        client = new OkHttpClient();
         super.onCreate(savedInstanceState);
+        mClient = new OkHttpClient();
         setContentView(R.layout.activity_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -68,15 +74,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMessageSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View mMessageSubmitButton) {
-                sendMessage();
+                String stringJson = createJson();
+                post(serverUrl, stringJson);
             }
         });
     }
-
-
-    public void sendMessage() {
-    }
-
 
     /**
      * Manipulates the map once available.
@@ -166,5 +168,38 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
+    }
+
+    private String createJson() {
+
+        try {
+            JSONObject obj = new JSONObject();
+
+            obj.put("long", mLastLocation.getLongitude());
+            obj.put("lat", mLastLocation.getLatitude());
+            obj.put("EditText", mMessageEditText.getText());
+
+            return obj.toString();
+        } catch(JSONException e) {
+            return null;
+        }
+    }
+
+    public static final MediaType JSON
+            = MediaType.parse("application/json; charset=utf-8");
+
+    String post(String url, String json) {
+
+        try {
+            RequestBody body = RequestBody.create(JSON, createJson());
+            Request request = new Request.Builder()
+                    .url(url)
+                    .post(body)
+                    .build();
+            Response response = client.newCall(request).execute();
+            return response.body().string();
+        } catch(IOException e) {
+            return null;
+        }
     }
 }
