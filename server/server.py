@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, url_for
-
+from json import dumps
 from messages import Messages
 
 bottled_messages = Messages()
@@ -30,9 +30,9 @@ def open_message():
     lat_val = float(request.form['lat'])
     long_lat = (long_val, lat_val)
 
-    text = bottled_messages.get_messages(long_lat)
+    msgs = bottled_messages.get_messages(long_lat)
 
-    return 'The message in the bottle is: ' + text + '\n'
+    return dumps(msgs)
 
 if __name__ == "__main__":
     app.run()
