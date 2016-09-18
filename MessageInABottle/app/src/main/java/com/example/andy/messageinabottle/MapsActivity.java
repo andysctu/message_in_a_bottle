@@ -81,7 +81,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
                     .permitAll().build();
             StrictMode.setThreadPolicy(policy);
-            System.out.println(getMessages(serverUrl));
+            System.out.println("Messages: " + getMessages(serverUrl+"/open"));
         } catch (IOException e) {
             System.out.println(e);
         }
