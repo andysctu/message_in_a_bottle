@@ -25,7 +25,7 @@ def send_message():
 
     return 'Successfully sent message: ' + text + '\nat: ' + str(long_lat) + '\n'
 
-@app.route('/open/', methods=['GET'])
+@app.route('/open/', methods=['POST'])
 def open_message():
 
     content = request.get_json()

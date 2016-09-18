@@ -21,12 +21,12 @@ class Messages:
 
     def add_fake_messages(self):
         self.messages.update({
-            0: {self.LONG_LAT_KEY: (43.473010, -80.540047), self.TEXT_KEY: 'Please save me.'},
-            1: {self.LONG_LAT_KEY: (43.472010, -80.540047), self.TEXT_KEY: 'I\'m surrounded by fucking nerds.'},
-            2: {self.LONG_LAT_KEY: (43.474010, -80.540047), self.TEXT_KEY: 'I need a makeover asap.'},
-            3: {self.LONG_LAT_KEY: (43.473510, -80.540047), self.TEXT_KEY: 'You suck.'},
-            4: {self.LONG_LAT_KEY: (43.473010, -80.541047), self.TEXT_KEY: 'Zero is my favorite number.'},
-            5: {self.LONG_LAT_KEY: (43.473010, -80.539047), self.TEXT_KEY: 'One is my favorite number.'},
+            0: {self.LONG_LAT_KEY: (-80.540047, 43.473010), self.TEXT_KEY: 'Please save me.'},
+            1: {self.LONG_LAT_KEY: (-80.540047, 43.473010), self.TEXT_KEY: 'I\'m surrounded by fucking nerds.'},
+            2: {self.LONG_LAT_KEY: (-80.540047, 43.473010), self.TEXT_KEY: 'I need a makeover asap.'},
+            3: {self.LONG_LAT_KEY: (-80.540047, 43.473010), self.TEXT_KEY: 'You suck.'},
+            4: {self.LONG_LAT_KEY: (-80.540047, 43.473010), self.TEXT_KEY: 'Zero is my favorite number.'},
+            5: {self.LONG_LAT_KEY: (-80.540047, 43.473010), self.TEXT_KEY: 'One is my favorite number.'},
         })
 
         self.id_counter = 6
