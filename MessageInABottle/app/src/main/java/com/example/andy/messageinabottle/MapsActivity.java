@@ -6,7 +6,6 @@ import android.os.StrictMode;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.widget.Toast;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -72,7 +71,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
         // Add a marker in Sydney and move the camera
 //        LatLng e5 = new LatLng(43.473010, -80.540047);
         LatLng e5 = new LatLng(43.6532, 79.3832);
@@ -97,8 +95,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void enableMyLocation() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             mMap.setMyLocationEnabled(true);
+            mMap.getUiSettings().setMyLocationButtonEnabled(true);
         } else {
-            System.out.println("Error");
+            System.out.println("Error need location access");
         }
     }
 
