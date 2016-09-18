@@ -56,6 +56,11 @@ class Messages:
             if vals_are_close(long_val, msg_long_val) and \
                 vals_are_close(lat_val, msg_lat_val):
 
-                msgs.append(value[self.TEXT_KEY])
+                msg = {
+                    'long': msg_long_val,
+                    'lat': msg_lat_val,
+                    self.TEXT_KEY: value[self.TEXT_KEY]
+                }
+                msgs.append(msg)
 
         return msgs
