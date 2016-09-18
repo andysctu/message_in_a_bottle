@@ -33,8 +33,6 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-import java.io.IOException;
-
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
@@ -44,9 +42,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private EditText mMessageEditText;
     private Button mMessageSubmitButton;
-    
+
     private String serverUrl = "http://65976bdc.ngrok.io";
-    private OkHttpClient client;
+    private OkHttpClient mClient;
 
     /**
      * Provides the entry point to Google Play services.
@@ -76,7 +74,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public void onClick(View mMessageSubmitButton) {
                 String stringJson = createJson();
                 post(serverUrl, stringJson);
-
                 mMessageEditText.setText("");
             }
         });
@@ -99,7 +96,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
                     .permitAll().build();
             StrictMode.setThreadPolicy(policy);
-            System.out.println("Messages: " + getMessages(serverUrl+"/open/"));
+            System.out.println("Messages: " + getMessages(serverUrl + "/open/"));
         } catch (IOException e) {
             System.out.println(e);
         }
@@ -128,7 +125,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .post(body)
                 .build();
         System.out.println("Url: " + request.toString());
-        Response response = client.newCall(request).execute();
+        Response response = mClient.newCall(request).execute();
         return response.body().string();
     }
 
@@ -182,25 +179,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             obj.put("EditText", mMessageEditText.getText());
 
             return obj.toString();
-        } catch(JSONException e) {
+        } catch (JSONException e) {
             return null;
         }
     }
 
-    public static final MediaType JSON
-            = MediaType.parse("application/json; charset=utf-8");
-
     String post(String url, String json) {
-
         try {
-            RequestBody body = RequestBody.create(JSON, createJson());
+            RequestBody body = RequestBody.create(JSON, json);
             Request request = new Request.Builder()
                     .url(url)
                     .post(body)
                     .build();
-            Response response = client.newCall(request).execute();
+            Response response = mClient.newCall(request).execute();
             return response.body().string();
-        } catch(IOException e) {
+        } catch (IOException e) {
             return null;
         }
     }
